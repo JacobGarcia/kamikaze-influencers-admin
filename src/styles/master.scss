@@ -1,0 +1,92 @@
+@mixin box-shadow {
+  border-radius: 3px;
+  box-shadow: #DB175E 0px 0px 6px;
+}
+
+
+
+*, html, body, div, ul, li, p, span {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  height: 100%;
+  line-height: 1.25;
+}
+
+span {
+  &.users {
+    padding-left: 20px;
+  }
+  &.red {
+    color: rgb(198, 0, 77);
+  }
+}
+
+p span {
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  &.users {
+    padding-left: 30px;
+  }
+}
+
+h2 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: rgb(150, 150, 150);
+}
+
+#root {
+  height: 100%;
+}
+
+.header {
+  @include box-shadow;
+  padding: 5px 0;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  .logo {
+    max-height: 50px;
+  }
+}
+
+.body {
+  display: flex;
+  max-width: 1000px;
+  margin: 0 auto;
+  .users-wrapper, .finance-wrapper {
+    padding: 0 20px;
+    flex-grow: 1;
+  }
+  .packages-wrapper {
+    margin-top: 40px;
+  }
+  .income-month {
+    margin: 30px 0;
+  }
+  .month {
+    margin-top: 20px;
+  }
+  .package {
+    display: flex;
+    padding: 10px;
+    border-radius: 5px;
+    .package-name {
+      padding: 10px 20px;
+      @include box-shadow;
+    }
+    .package-sales {
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
