@@ -10,26 +10,26 @@ class Dashboard extends Component {
     super(props)
 
     this.state = {
-      totalUsers: 5200,
-      payingUsers: 3020,
-      totalUsers: 200,
-      payingUsers: 20,
+      totalUsers: 0,
+      payingUsers: 0,
+      totalUsers: 0,
+      payingUsers: 0,
       users: [],
       months: [{
-        totalIncome: 2000,
-        totalUsers: 200,
-        payingUsers: 20,
-        users: [{name: 'Dewey'}],
-        newUsers: 10
+        totalIncome: 0,
+        totalUsers: 0,
+        payingUsers: 0,
+        users: [],
+        newUsers: 0
       }],
       newUsers: 10, // New users in the month, purchases in month, income, paying users
       newPayingUsers: 0,
       soldPackages: 32,
       packages: [{
-        name: 'package-name',
+        name: '',
         sold: 100,
       }], // Name and total purchases
-      totalIncome: 3240,
+      totalIncome: 0,
       latestIncome: 0
     }
 
@@ -201,11 +201,11 @@ class Dashboard extends Component {
           </div>
           <div className='finance-wrapper'>
             <div className='income-wrapper'>
-              <h1><span className='red'>${state.totalIncome}</span> Income</h1>
+              <h1><span className='red'>${Math.round(state.totalIncome*100)/100}</span> Income</h1>
               <p><span className='red'>{Math.round((state.payingUsers/state.totalUsers)*100)/100}%</span> of total users have purchased a package</p>
                 <div className='income-month'>
-                  <p>Last 30 Days ${state.latestIncome} income</p>
-                  <p><span className='red'>{state.newPayingUsers/state.newUsers}%</span> of users have purchased a package</p>
+                  <p>Last 30 Days ${Math.round(state.latestIncome*100)/100} income</p>
+                  <p><span className='red'>{Math.round((state.newPayingUsers/state.newUsers)*100)/100}%</span> of users have purchased a package</p>
                 </div>
             </div>
             <div className='packages-wrapper'>
@@ -220,7 +220,7 @@ class Dashboard extends Component {
           </div>
         </div>
       </div>
-  )
+    )
   }
 
 }
