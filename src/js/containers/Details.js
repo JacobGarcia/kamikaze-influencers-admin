@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import NetworkRequest from '../NetworkRequest'
 
-class Dashboard extends Component {
+class Details extends Component {
 
   constructor(props) {
     super(props)
@@ -192,7 +192,6 @@ class Dashboard extends Component {
             <div className='general-info'>
               <h1 className='users'><span className='red'>{this.state.totalUsers}</span> users</h1>
               <p><span className='red'>{state.payingUsers}</span> have purchased a package</p>
-              <span className='red'><Link to='/details'>View all</Link></span>
             </div>
               <div className='month'>
                 <h2>Last 30 Days</h2>
@@ -225,4 +224,4 @@ class Dashboard extends Component {
 
 }
 
-export default Dashboard
+export default Details

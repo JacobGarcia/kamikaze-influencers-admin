@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Dashboard from './containers/Dashboard'
+import Routes from './router'
 
 window.baseUrl = 'http://localhost:8080/v1'
 
@@ -9,6 +10,6 @@ document.body.appendChild(div)
 div.id = 'root'
 
 ReactDOM.render(
-  <Dashboard/>,
+  Routes,
   document.getElementById('root')
 )
