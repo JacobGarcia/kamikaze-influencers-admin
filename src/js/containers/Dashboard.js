@@ -1,52 +1,179 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
+import NetworkRequest from '../NetworkRequest'
+
 class Dashboard extends Component {
 
   constructor(props) {
     super(props)
 
     this.state = {
-      authenticated: true,
-      username: '',
-      password: '',
       totalUsers: 5200,
       payingUsers: 3020,
+      totalUsers: 200,
+      payingUsers: 20,
+      users: [],
       months: [{
         totalIncome: 2000,
         totalUsers: 200,
         payingUsers: 20,
-        users: [],
-        name: 'May',
-        year: 2017,
+        users: [{name: 'Dewey'}],
         newUsers: 10
-      }], // New users in the month, purchases in month, income, paying users
+      }],
+      newUsers: 10, // New users in the month, purchases in month, income, paying users
+      newPayingUsers: 0,
       soldPackages: 32,
       packages: [{
         name: 'package-name',
         sold: 100,
       }], // Name and total purchases
       totalIncome: 3240,
+      latestIncome: 0
     }
+
+    this.getTotalUsers = this.getTotalUsers.bind(this)
+    this.getTotalPaidUsers = this.getTotalPaidUsers.bind(this)
+    this.getLatestUsers = this.getLatestUsers.bind(this)
+    this.getLatestPaidUsers = this.getLatestPaidUsers.bind(this)
+    this.getLatestIncome = this.getLatestIncome.bind(this)
+    this.getPackages = this.getPackages.bind(this)
+    this.getPackageUnit = this.getPackageUnit.bind(this)
   }
 
   componentWillMount() {
     // Get all info
+    this.getTotalUsers()
+    this.getTotalPaidUsers()
+    this.getLatestUsers()
+    this.getLatestPaidUsers()
+    this.getTotalIncome()
+    this.getLatestIncome()
+    this.getPackages()
+    this.getPackageUnit()
   }
 
-  authenticate() {
-    axios.post(`${window.baseUrl}/admin/authenticate`)
-    .then(response => {
-
+  getTotalUsers(){
+    // Get number of total users
+    NetworkRequest.getTotalUsers()
+    .then((response) => {
+      const users = response.data.users
+      this.setState({
+        totalUsers: users.length
+      })
     })
-    .catch(error => {
-
+    .catch((error) => {
+      // TODO: handle error
+      console.log(error)
     })
   }
 
-  isAuthenticated() {
-    return true
+  getTotalPaidUsers(){
+    // Get number of total users
+    NetworkRequest.getTotalPaidUsers()
+    .then((response) => {
+      const users = response.data.users
+      this.setState({
+        payingUsers: users.length
+      })
+    })
+    .catch((error) => {
+      // TODO: handle error
+      console.log(error)
+    })
   }
+
+  getLatestUsers(){
+    // Get number of total users
+    NetworkRequest.getLatestUsers()
+    .then((response) => {
+      const users = response.data.users
+      this.setState({
+        newUsers: users.length
+      })
+    })
+    .catch((error) => {
+      // TODO: handle error
+      console.log(error)
+    })
+  }
+
+  getLatestPaidUsers(){
+    // Get number of total users
+    NetworkRequest.getLatestPaidUsers()
+    .then((response) => {
+      const users = response.data.users
+      this.setState({
+        newPayingUsers: users.length
+      })
+    })
+    .catch((error) => {
+      // TODO: handle error
+      console.log(error)
+    })
+  }
+
+  getTotalIncome(){
+    // Get number of total users
+    NetworkRequest.getTotalIncome()
+    .then((response) => {
+      const users = response.data.users
+      this.setState({
+        totalIncome: users[0].total
+      })
+    })
+    .catch((error) => {
+      // TODO: handle error
+      console.log(error)
+    })
+  }
+
+  getLatestIncome(){
+    // Get number of total users
+    NetworkRequest.getLatestIncome()
+    .then((response) => {
+      const users = response.data.users
+      this.setState({
+        latestIncome: users[0].total
+      })
+    })
+    .catch((error) => {
+      // TODO: handle error
+      console.log(error)
+    })
+  }
+
+  getPackages(){
+      // Get number of total users
+      NetworkRequest.getPackages()
+      .then((response) => {
+        const users = response.data.users
+        this.setState({
+          soldPackages: users.length
+        })
+      })
+      .catch((error) => {
+        // TODO: handle error
+        console.log(error)
+      })
+    }
+
+    getPackageUnit(){
+        // Get number of total users
+        NetworkRequest.getPackageUnit()
+        .then((response) => {
+          const packages = response.data
+          console.log(packages);
+          this.setState({
+            packages
+          })
+        })
+        .catch((error) => {
+          // TODO: handle error
+          console.log(error)
+        })
+      }
+
 
   render() {
 
@@ -54,41 +181,30 @@ class Dashboard extends Component {
 
 
     return (
-      state.authenticated ? (
       <div>
         <div className='header'>
           <span></span>
           <img src='https://owainfluencers.com/static/img/owa.svg' className='logo' alt=''/>
-          <input type='button' value='Signout'/>
         </div>
         <div className='body'>
           <div className='users-wrapper'>
             <div className='general-info'>
-              <h1 className='users'><span className='red'>{state.totalUsers}</span> Users</h1>
+              <h1 className='users'><span className='red'>{this.state.totalUsers}</span> users</h1>
               <p><span className='red'>{state.payingUsers}</span> have purchased a package</p>
             </div>
-            { state.months.map((month, index) =>
-              <div className='month' key={index}>
-                <h2>{month.name} {month.year}</h2>
-                <p><span className='users red'>{month.newUsers}</span> new users, <span className='red'>{month.payingUsers}</span> have purchased a package</p>
-                <div className='month-users'>
-                  { month.users.map((user, index) =>
-                    <div className='user' key={index}></div>
-                  ) }
-                </div>
+              <div className='month'>
+                <h2>Last 30 Days</h2>
+                <p><span className='users red'>{state.newUsers}</span> new users, <span className='red'>{state.newPayingUsers}</span> have purchased a package</p>
               </div>
-            ) }
           </div>
           <div className='finance-wrapper'>
             <div className='income-wrapper'>
               <h1><span className='red'>${state.totalIncome}</span> Income</h1>
-              <p><span className='red'>{Math.round((state.totalUsers/state.payingUsers)*100)/100}%</span> of total users have purchased a package</p>
-              { state.months.map((month, index) =>
-                <div className='income-month' key={index}>
-                  <p>{month.name} {month.year} ${month.totalIncome} income</p>
-                  <p><span className='red'>{month.totalUsers/month.payingUsers}%</span> of users have purchased a package</p>
+              <p><span className='red'>{Math.round((state.payingUsers/state.totalUsers)*100)/100}%</span> of total users have purchased a package</p>
+                <div className='income-month'>
+                  <p>Last 30 Days ${state.latestIncome} income</p>
+                  <p><span className='red'>{state.newPayingUsers/state.newUsers}%</span> of users have purchased a package</p>
                 </div>
-              )}
             </div>
             <div className='packages-wrapper'>
               <h1><span className='red'>{state.soldPackages}</span> Packages</h1>
@@ -102,15 +218,6 @@ class Dashboard extends Component {
           </div>
         </div>
       </div>
-    ) :
-    (
-      <div>
-        {state.authenticated}
-        <input type='text' value={this.state.username} onChange={this.onChange}/>
-        <input type='password' value={this.state.password} onChange={this.onChange}/>
-        <input type='button' value='Login' onClick={this.authenticate}/>
-      </div>
-    )
   )
   }
 
