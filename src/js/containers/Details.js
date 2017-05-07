@@ -1,57 +1,67 @@
+/**
+ * This file provided by Facebook is for non-commercial testing and evaluation
+ * purposes only. Facebook reserves all rights not expressly granted.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 import React, { Component } from 'react'
-import { Link } from 'react-router'
-import axios from 'axios'
+import ExampleImage from './ExampleImage'
+import FakeObjectDataListStore from './FakeObjectDataListStore'
+import { Table, Column, Cell } from 'fixed-data-table'
 
 import NetworkRequest from '../NetworkRequest'
 
-class Details extends Component {
+class ImageCell extends Component {
+  render() {
+    const {rowIndex, field, data, ...props} = this.props
+    var image = {backgroundImage : `url(${data[rowIndex][field]})`}
+    return(
+      <Cell>
+        <div className="exampleImage" style= {image} />
+      </Cell>
+    )
+  }
+}
 
+class LinkCell extends React.Component {
+  render() {
+    const {rowIndex, field, data, ...props} = this.props
+    return (
+      <Cell>
+        <a href={'http://www.instagram.com/' + data[rowIndex][field]}>{data[rowIndex][field]}</a>
+      </Cell>
+    )
+  }
+}
+
+class Details extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      totalUsers: 5200,
-      payingUsers: 3020,
-      totalUsers: 200,
-      payingUsers: 20,
-      users: [],
-      months: [{
-        totalIncome: 2000,
-        totalUsers: 200,
-        payingUsers: 20,
-        users: [{name: 'Dewey'}],
-        newUsers: 10
-      }],
-      newUsers: 10, // New users in the month, purchases in month, income, paying users
-      newPayingUsers: 0,
-      soldPackages: 32,
-      packages: [{
-        name: 'package-name',
-        sold: 100,
-      }], // Name and total purchases
-      totalIncome: 3240,
-      latestIncome: 0
+      myTableData: [
+        {name: 'Rylan', email: 'Angelita_Weimann42@gmail.com'},
+        {name: 'Amelia', email: 'Dexter.Trantow57@hotmail.com'},
+        {name: 'Estevan', email: 'Aimee7@hotmail.com'},
+        {name: 'Florence', email: 'Jarrod.Bernier13@yahoo.com'},
+        {name: 'Tressa', email: 'Yadira1@hotmail.com'},
+      ],
+      dataList: new FakeObjectDataListStore(1000000),
+      users: ''
     }
 
     this.getTotalUsers = this.getTotalUsers.bind(this)
-    this.getTotalPaidUsers = this.getTotalPaidUsers.bind(this)
-    this.getLatestUsers = this.getLatestUsers.bind(this)
-    this.getLatestPaidUsers = this.getLatestPaidUsers.bind(this)
-    this.getLatestIncome = this.getLatestIncome.bind(this)
-    this.getPackages = this.getPackages.bind(this)
-    this.getPackageUnit = this.getPackageUnit.bind(this)
   }
 
   componentWillMount() {
     // Get all info
     this.getTotalUsers()
-    this.getTotalPaidUsers()
-    this.getLatestUsers()
-    this.getLatestPaidUsers()
-    this.getTotalIncome()
-    this.getLatestIncome()
-    this.getPackages()
-    this.getPackageUnit()
   }
 
   getTotalUsers(){
@@ -60,7 +70,7 @@ class Details extends Component {
     .then((response) => {
       const users = response.data.users
       this.setState({
-        totalUsers: users.length
+        users
       })
     })
     .catch((error) => {
@@ -68,160 +78,163 @@ class Details extends Component {
       console.log(error)
     })
   }
-
-  getTotalPaidUsers(){
-    // Get number of total users
-    NetworkRequest.getTotalPaidUsers()
-    .then((response) => {
-      const users = response.data.users
-      this.setState({
-        payingUsers: users.length
-      })
-    })
-    .catch((error) => {
-      // TODO: handle error
-      console.log(error)
-    })
-  }
-
-  getLatestUsers(){
-    // Get number of total users
-    NetworkRequest.getLatestUsers()
-    .then((response) => {
-      const users = response.data.users
-      this.setState({
-        newUsers: users.length
-      })
-    })
-    .catch((error) => {
-      // TODO: handle error
-      console.log(error)
-    })
-  }
-
-  getLatestPaidUsers(){
-    // Get number of total users
-    NetworkRequest.getLatestPaidUsers()
-    .then((response) => {
-      const users = response.data.users
-      this.setState({
-        newPayingUsers: users.length
-      })
-    })
-    .catch((error) => {
-      // TODO: handle error
-      console.log(error)
-    })
-  }
-
-  getTotalIncome(){
-    // Get number of total users
-    NetworkRequest.getTotalIncome()
-    .then((response) => {
-      const users = response.data.users
-      this.setState({
-        totalIncome: users[0].total
-      })
-    })
-    .catch((error) => {
-      // TODO: handle error
-      console.log(error)
-    })
-  }
-
-  getLatestIncome(){
-    // Get number of total users
-    NetworkRequest.getLatestIncome()
-    .then((response) => {
-      const users = response.data.users
-      this.setState({
-        latestIncome: users[0].total
-      })
-    })
-    .catch((error) => {
-      // TODO: handle error
-      console.log(error)
-    })
-  }
-
-  getPackages(){
-      // Get number of total users
-      NetworkRequest.getPackages()
-      .then((response) => {
-        const users = response.data.users
-        this.setState({
-          soldPackages: users.length
-        })
-      })
-      .catch((error) => {
-        // TODO: handle error
-        console.log(error)
-      })
-    }
-
-    getPackageUnit(){
-        // Get number of total users
-        NetworkRequest.getPackageUnit()
-        .then((response) => {
-          const packages = response.data
-          console.log(packages);
-          this.setState({
-            packages
-          })
-        })
-        .catch((error) => {
-          // TODO: handle error
-          console.log(error)
-        })
-      }
-
 
   render() {
-
-    const state = this.state
-
-
+    const dataList = this.state.dataList
     return (
-      <div>
-        <div className='header'>
-          <span></span>
-          <img src='https://owainfluencers.com/static/img/owa.svg' className='logo' alt=''/>
-        </div>
-        <div className='body'>
-          <div className='users-wrapper'>
-            <div className='general-info'>
-              <h1 className='users'><span className='red'>{this.state.totalUsers}</span> users</h1>
-              <p><span className='red'>{state.payingUsers}</span> have purchased a package</p>
-            </div>
-              <div className='month'>
-                <h2>Last 30 Days</h2>
-                <p><span className='users red'>{state.newUsers}</span> new users, <span className='red'>{state.newPayingUsers}</span> have purchased a package</p>
-              </div>
-          </div>
-          <div className='finance-wrapper'>
-            <div className='income-wrapper'>
-              <h1><span className='red'>${state.totalIncome}</span> Income</h1>
-              <p><span className='red'>{Math.round((state.payingUsers/state.totalUsers)*100)/100}%</span> of total users have purchased a package</p>
-                <div className='income-month'>
-                  <p>Last 30 Days ${state.latestIncome} income</p>
-                  <p><span className='red'>{state.newPayingUsers/state.newUsers}%</span> of users have purchased a package</p>
-                </div>
-            </div>
-            <div className='packages-wrapper'>
-              <h1><span className='red'>{state.soldPackages}</span> Packages</h1>
-              { state.packages.map((packageObject, index) =>
-                <div className='package' key={index}>
-                  <div className='package-name'>{packageObject.name}</div>
-                  <div className='package-sales'><span className='red'>{packageObject.sold}</span> purchased</div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-  )
-  }
+      <Table
+        rowsCount={this.state.users.length}
+        rowHeight={50}
+        headerHeight={50}
+        width={1000}
+        height={500}
+        {...this.props}>
+        <Column
+          cell={
+            <ImageCell
+              data={this.state.users}
+              field="profile_picture"
+            />
+          }
+          width={50}
+        />
+        <Column
+          header={<Cell>Username</Cell>}
+          cell={
+            <LinkCell
+              data={this.state.users}
+              field="username"
+            />
+          }
+          width={200}
+        />
 
+      </Table>
+    )
+  }
 }
+
+// // const DateCell = ({rowIndex, data, col, ...props}) => (
+// //   <Cell {...props}>
+// //     {data.getObjectAt(rowIndex)[col].toLocaleString()}
+// //   </Cell>
+// // );
+// //
+// // const ImageCell = ({rowIndex, data, col, ...props}) => (
+// //   <ExampleImage
+// //     src={data.getObjectAt(rowIndex)[col]}
+// //   />
+// // );
+// //
+// // const LinkCell = ({rowIndex, data, col, ...props}) => (
+// //   <Cell {...props}>
+// //     <a href="#">{data.getObjectAt(rowIndex)[col]}</a>
+// //   </Cell>
+// // );
+// //
+// // const TextCell = ({rowIndex, data, col, ...props}) => (
+// //   <Cell {...props}>
+// //     {data.getObjectAt(rowIndex)[col]}
+// //   </Cell>
+// // );
+//
+// class DateCell extends Component {
+//   render() {
+//     const {rowIndex, field, data, ...props} = this.props
+//     const source = data[rowIndex][field]
+//     return (
+//       <Cell {...props}>
+//         {data[rowIndex][field].toLocaleString()}
+//       </Cell>
+//     )
+//   }
+// }
+//
+//
+//
+// class LinkCell extends Component {
+//   render() {
+//     const {rowIndex, field, data, ...props} = this.props
+//     const link = data[rowIndex][field]
+//     return (
+//       <Cell {...props}>
+//         <a href={link}>{link}</a>
+//       </Cell>
+//     )
+//   }
+// }
+//
+// class TextCell extends Component {
+//   render() {
+//     const {rowIndex, field, data, ...props} = this.props
+//     return (
+//       <Cell {...props}>
+//         {data[rowIndex][field]}
+//       </Cell>
+//     )
+//   }
+// }
+//
+// class Details extends Component {
+//   constructor(props) {
+//     super(props)
+//
+//     this.state = {
+//       dataList: new FakeObjectDataListStore(1000000),
+//     }
+//   }
+//
+//   render() {
+//     var {dataList} = this.state
+//     return (
+//       <Table
+//         rowHeight={50}
+//         headerHeight={50}
+//         rowsCount={dataList.getSize()}
+//         width={1000}
+//         height={500}
+//         {...this.props}>
+//
+//         <Column
+//           header={<Cell>First Name</Cell>}
+//           cell={<LinkCell data={dataList} col="firstName" />}
+//           fixed={true}
+//           width={100}
+//         />
+//         <Column
+//           header={<Cell>Last Name</Cell>}
+//           cell={<TextCell data={dataList} col="lastName" />}
+//           fixed={true}
+//           width={100}
+//         />
+//         <Column
+//           header={<Cell>City</Cell>}
+//           cell={<TextCell data={dataList} col="city" />}
+//           width={100}
+//         />
+//         <Column
+//           header={<Cell>Street</Cell>}
+//           cell={<TextCell data={dataList} col="street" />}
+//           width={200}
+//         />
+//         <Column
+//           header={<Cell>Zip Code</Cell>}
+//           cell={<TextCell data={dataList} col="zipCode" />}
+//           width={200}
+//         />
+//         <Column
+//           header={<Cell>Email</Cell>}
+//           cell={<LinkCell data={dataList} col="email" />}
+//           width={200}
+//         />
+//         <Column
+//           header={<Cell>DOB</Cell>}
+//           cell={<DateCell data={dataList} col="date" />}
+//           width={200}
+//         />
+//       </Table>
+//     );
+//   }
+// }
 
 export default Details
