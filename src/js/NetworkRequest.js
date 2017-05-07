@@ -34,6 +34,10 @@ class NetworkRequest {
     return axios.get(`${window.baseUrl}/admin/self/total/packages`)
   }
 
+  static getDetails() {
+    return axios.get(`${window.baseUrl}/admin/self/detailed/users`)
+  }
+
 }
 
 export default NetworkRequest

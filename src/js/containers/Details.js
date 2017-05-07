@@ -40,6 +40,34 @@ class LinkCell extends React.Component {
   }
 }
 
+class MoneyCell extends Component {
+  render() {
+    const {rowIndex, field, data, ...props} = this.props
+    const payments = data[rowIndex][field]
+    let amount = 0
+    payments.forEach((payment) => {
+      amount += payment.amount
+    })
+    return (
+      <Cell>
+        {amount}
+      </Cell>
+    )
+  }
+}
+
+class DateCell extends Component {
+  render() {
+    const {rowIndex, field, data, ...props} = this.props
+    const source = data[rowIndex][field]
+    return (
+      <Cell>
+        {new Date(data[rowIndex][field]).toLocaleDateString()}
+      </Cell>
+    )
+  }
+}
+
 class Details extends React.Component {
   constructor(props) {
     super(props)
@@ -66,9 +94,21 @@ class Details extends React.Component {
 
   getTotalUsers(){
     // Get number of total users
-    NetworkRequest.getTotalUsers()
+    // NetworkRequest.getTotalUsers()
+    // .then((response) => {
+    //   const users = response.data.users
+    //   this.setState({
+    //     users
+    //   })
+    // })
+    // .catch((error) => {
+    //   // TODO: handle error
+    //   console.log(error)
+    // })
+    NetworkRequest.getDetails()
     .then((response) => {
       const users = response.data.users
+      console.log(users);
       this.setState({
         users
       })
@@ -108,11 +148,44 @@ class Details extends React.Component {
           }
           width={200}
         />
+        <Column
+          header={<Cell>Invested money</Cell>}
+          cell={
+            <MoneyCell
+              data={this.state.users}
+              field="payments"
+            />
+          }
+          width={200}
+        />
+        <Column
+          header={<Cell>Join Date</Cell>}
+          cell={
+            <DateCell
+              data={this.state.users}
+              field="joinDate"
+            />
+          }
+          width={200}
+        />
 
       </Table>
     )
   }
 }
+
+// <Column
+//   header={<Cell>Registration Date</Cell>}
+//   cell={
+//     <DateCell
+//       data={this.state.users}
+//       field="joinDate"
+//     />
+//   }
+//   width={200}
+// />
+
+
 
 // // const DateCell = ({rowIndex, data, col, ...props}) => (
 // //   <Cell {...props}>

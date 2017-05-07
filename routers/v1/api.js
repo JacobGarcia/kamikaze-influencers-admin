@@ -21,7 +21,7 @@ router.route('/admin/self/total/users')
 .get((req, res) => {
 
   User.find({})
-  .select('profile_picture username paidUser -_id')
+  .select('profile_picture username paidUser joinDate -_id')
   .exec((error, users) => {
     if (error) {
       console.log(error)
@@ -65,7 +65,7 @@ router.route('/admin/self/latest/paid/users')
   const days = 2592000000 //  30 days
 
   User.find({joinDate:{ $gt: Date.now() - days }, paidUser: true})
-  .select('profile_picture username paidUser -_id')
+  .select('profile_picture username paidUser  -_id')
   .exec((error, users) => {
     if (error) {
       console.log(error)
@@ -155,6 +155,28 @@ router.route('/admin/self/total/packages')
       return res.status(500).json({ error })
     }
       res.status(200).json(result)
+  })
+})
+
+router.route('/admin/self/detailed/users')
+.get((req, res) => {
+  const income = [{
+    $project : { username : 1, profile_picture : 1, joinDate: 1, _id: 0} },
+    { "$lookup": {
+      "from": "payments",
+      "localField": "username",
+      "foreignField": "username",
+      "as": "payments"
+    }
+  }]
+
+  User.aggregate(income)
+  .exec((error, users) => {
+    if (error) {
+      console.log(error)
+      return res.status(500).json({ error })
+    }
+    res.status(200).json({users})
   })
 })
 
