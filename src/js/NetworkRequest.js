@@ -34,8 +34,12 @@ class NetworkRequest {
     return axios.get(`${window.baseUrl}/admin/self/total/packages`)
   }
 
-  static getDetails() {
+  static getUserDetails() {
     return axios.get(`${window.baseUrl}/admin/self/detailed/users`)
+  }
+
+  static getPaymentDetails() {
+    return axios.get(`${window.baseUrl}/admin/self/detailed/payments`)
   }
 
 }

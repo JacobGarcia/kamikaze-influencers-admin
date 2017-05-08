@@ -117,20 +117,6 @@ router.route('/admin/self/latest/income')
   })
 })
 
-router.route('/admin/self/total/payments')
-.get((req, res) => {
-
-  Payment.find({})
-  .select('item_id amount payer username date -_id')
-  .exec((error, users) => {
-    if (error) {
-      console.log(error)
-      return res.status(500).json({ error })
-    }
-    res.status(200).json({ users })
-  })
-})
-
 router.route('/admin/self/total/packages')
 .get((req, res) => {
   const income = [
@@ -155,6 +141,21 @@ router.route('/admin/self/total/packages')
       return res.status(500).json({ error })
     }
       res.status(200).json(result)
+  })
+})
+
+router.route('/admin/self/detailed/payments')
+.get((req, res) => {
+
+  Payment.find({})
+  .select('paypal_id item_id amount payer username date -_id')
+  .populate('item_id')
+  .exec((error, payments) => {
+    if (error) {
+      console.log(error)
+      return res.status(500).json({ error })
+    }
+    res.status(200).json({ payments })
   })
 })
 

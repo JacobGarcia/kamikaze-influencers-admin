@@ -164,7 +164,6 @@ class Dashboard extends Component {
         NetworkRequest.getPackageUnit()
         .then((response) => {
           const packages = response.data
-          console.log(packages);
           this.setState({
             packages
           })
@@ -192,7 +191,7 @@ class Dashboard extends Component {
             <div className='general-info'>
               <h1 className='users'><span className='red'>{this.state.totalUsers}</span> users</h1>
               <p><span className='red'>{state.payingUsers}</span> have purchased a package</p>
-              <span className='red'><Link to='/details'>View all</Link></span>
+              <span className='red'><Link to='/userdetails'>View all</Link></span>
             </div>
               <div className='month'>
                 <h2>Last 30 Days</h2>
@@ -203,6 +202,7 @@ class Dashboard extends Component {
             <div className='income-wrapper'>
               <h1><span className='red'>${Math.round(state.totalIncome*100)/100}</span> Income</h1>
               <p><span className='red'>{Math.round((state.payingUsers/state.totalUsers)*100)/100}%</span> of total users have purchased a package</p>
+              <span className='red'><Link to='/paymentdetails'>View all</Link></span>
                 <div className='income-month'>
                   <p>Last 30 Days ${Math.round(state.latestIncome*100)/100} income</p>
                   <p><span className='red'>{Math.round((state.newPayingUsers/state.newUsers)*100)/100}%</span> of users have purchased a package</p>
