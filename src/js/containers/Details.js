@@ -40,6 +40,17 @@ class LinkCell extends React.Component {
   }
 }
 
+class TextCell extends React.Component {
+  render() {
+    const {rowIndex, field, data, ...props} = this.props
+    return (
+      <Cell>
+        {data[rowIndex][field]}
+      </Cell>
+    )
+  }
+}
+
 class MoneyCell extends Component {
   render() {
     const {rowIndex, field, data, ...props} = this.props
@@ -93,18 +104,6 @@ class Details extends React.Component {
   }
 
   getTotalUsers(){
-    // Get number of total users
-    // NetworkRequest.getTotalUsers()
-    // .then((response) => {
-    //   const users = response.data.users
-    //   this.setState({
-    //     users
-    //   })
-    // })
-    // .catch((error) => {
-    //   // TODO: handle error
-    //   console.log(error)
-    // })
     NetworkRequest.getDetails()
     .then((response) => {
       const users = response.data.users
@@ -144,6 +143,16 @@ class Details extends React.Component {
             <LinkCell
               data={this.state.users}
               field="username"
+            />
+          }
+          width={200}
+        />
+        <Column
+          header={<Cell>Full Name</Cell>}
+          cell={
+            <TextCell
+              data={this.state.users}
+              field="fullName"
             />
           }
           width={200}

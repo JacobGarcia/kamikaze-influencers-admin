@@ -161,7 +161,7 @@ router.route('/admin/self/total/packages')
 router.route('/admin/self/detailed/users')
 .get((req, res) => {
   const income = [{
-    $project : { username : 1, profile_picture : 1, joinDate: 1, _id: 0} },
+    $project : { username : 1, fullName: 1, profile_picture : 1, joinDate: 1, _id: 0} },
     { "$lookup": {
       "from": "payments",
       "localField": "username",
