@@ -204,7 +204,7 @@ class Dashboard extends Component {
               <p><span className='red'>{Math.round((state.payingUsers/state.totalUsers)*100)/100}%</span> of total users have purchased a package</p>
               <span className='red'><Link to='/paymentdetails'>View all</Link></span>
                 <div className='income-month'>
-                  <p>Last 30 Days ${Math.rounds(state.latestIncome*100)/100} income</p>
+                  <p>Last 30 Days ${Math.round(state.latestIncome*100)/100} income</p>
                   <p><span className='red'>{Math.round((state.newPayingUsers/state.newUsers)*100)/100}%</span> of users have purchased a package</p>
                 </div>
             </div>
