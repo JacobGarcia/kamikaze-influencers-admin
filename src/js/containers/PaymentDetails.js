@@ -76,6 +76,34 @@ class PaymentDetails extends Component {
     this.getPaymentDetails()
   }
 
+  componentDidMount() {
+    this._update()
+    var win = window
+    if (win.addEventListener) {
+      win.addEventListener('resize', this._onResize, false)
+    } else if (win.attachEvent) {
+      win.attachEvent('onresize', this._onResize)
+    } else {
+      win.onresize = this._onResize
+    }
+  }
+
+  _onResize() {
+    clearTimeout(this._updateTimer)
+    this._updateTimer = setTimeout(this._update, 16)
+  }
+
+  _update() {
+    var win = window
+
+    var widthOffset = win.innerWidth < 680 ? 0 : 240
+
+    this.setState({
+      tableWidth: win.innerWidth - widthOffset,
+      tableHeight: win.innerHeight - 200,
+    })
+  }
+
   getPaymentDetails(){
     NetworkRequest.getPaymentDetails()
     .then((response) => {
@@ -97,7 +125,7 @@ class PaymentDetails extends Component {
         rowHeight={50}
         headerHeight={50}
         width={1000}
-        height={500}
+        height={850}
         >
         <Column
           header={<Cell>ID</Cell>}
@@ -131,7 +159,7 @@ class PaymentDetails extends Component {
           width={200}
         />
         <Column
-          header={<Cell>Username</Cell>}
+          header={<Cell>User</Cell>}
           cell={
             <LinkCell
               data={this.state.payments}

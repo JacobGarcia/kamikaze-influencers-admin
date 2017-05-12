@@ -76,6 +76,35 @@ class UserDetails extends Component {
     this.getUserDetails = this.getUserDetails.bind(this)
   }
 
+  componentDidMount() {
+    this._update()
+    var win = window
+    if (win.addEventListener) {
+      win.addEventListener('resize', this._onResize, false)
+    } else if (win.attachEvent) {
+      win.attachEvent('onresize', this._onResize)
+    } else {
+      win.onresize = this._onResize
+    }
+  }
+
+  _onResize() {
+    clearTimeout(this._updateTimer)
+    this._updateTimer = setTimeout(this._update, 16)
+  }
+
+  _update() {
+    var win = window
+
+    var widthOffset = win.innerWidth < 680 ? 0 : 240
+
+    this.setState({
+      tableWidth: win.innerWidth - widthOffset,
+      tableHeight: win.innerHeight - 200,
+    })
+  }
+
+
   componentWillMount() {
     // Get all info
     this.getUserDetails()
@@ -98,12 +127,17 @@ class UserDetails extends Component {
 
   render() {
     return (
+      <div>
+      <div className='header'>
+        <span></span>
+        <img src='https://owainfluencers.com/static/img/owa.svg' className='logo' alt=''/>
+      </div>
       <Table
         rowsCount={this.state.users.length}
         rowHeight={50}
         headerHeight={50}
         width={850}
-        height={500}
+        height={850}
         >
         <Column
           cell={
@@ -112,16 +146,18 @@ class UserDetails extends Component {
               field="profile_picture"
             />
           }
+          fixed={false}
           width={50}
         />
         <Column
-          header={<Cell>Username</Cell>}
+          header={<Cell>User</Cell>}
           cell={
             <LinkCell
               data={this.state.users}
               field="username"
             />
           }
+          fixed={false}
           width={200}
         />
         <Column
@@ -132,6 +168,7 @@ class UserDetails extends Component {
               field="fullName"
             />
           }
+          fixed={false}
           width={200}
         />
         <Column
@@ -142,6 +179,7 @@ class UserDetails extends Component {
               field="payments"
             />
           }
+          fixed={false}
           width={200}
         />
         <Column
@@ -152,10 +190,12 @@ class UserDetails extends Component {
               field="joinDate"
             />
           }
+          fixed={false}
           width={200}
         />
 
       </Table>
+      </div>
     )
   }
 }
