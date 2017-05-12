@@ -10,26 +10,26 @@ class Dashboard extends Component {
     super(props)
 
     this.state = {
-      totalUsers: 0,
-      payingUsers: 0,
-      totalUsers: 0,
-      payingUsers: 0,
+      totalUsers: 5200,
+      payingUsers: 3020,
+      totalUsers: 200,
+      payingUsers: 20,
       users: [],
       months: [{
-        totalIncome: 0,
-        totalUsers: 0,
-        payingUsers: 0,
-        users: [],
-        newUsers: 0
+        totalIncome: 2000,
+        totalUsers: 200,
+        payingUsers: 20,
+        users: [{name: 'Dewey'}],
+        newUsers: 10
       }],
       newUsers: 10, // New users in the month, purchases in month, income, paying users
       newPayingUsers: 0,
       soldPackages: 32,
       packages: [{
-        name: '',
+        name: 'package-name',
         sold: 100,
       }], // Name and total purchases
-      totalIncome: 0,
+      totalIncome: 3240,
       latestIncome: 0
     }
 
