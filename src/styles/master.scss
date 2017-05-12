@@ -1,9 +1,9 @@
+@import "./fixed-data-table.scss";
+
 @mixin box-shadow {
   border-radius: 3px;
   box-shadow: #DB175E 0px 0px 6px;
 }
-
-
 
 *, html, body, div, ul, li, p, span {
   margin: 0;
