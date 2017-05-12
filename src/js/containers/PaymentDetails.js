@@ -7,7 +7,7 @@ class LinkCell extends Component {
   render() {
     const {rowIndex, field, data} = this.props
     return (
-      <Cell>
+      <Cell className='cell'>
         <a href={'http://www.instagram.com/' + data[rowIndex][field]}>{data[rowIndex][field]}</a>
       </Cell>
     )
@@ -18,7 +18,7 @@ class TextCell extends Component {
   render() {
     const {rowIndex, field, data} = this.props
     return (
-      <Cell>
+      <Cell className='cell'>
         {data[rowIndex][field]}
       </Cell>
     )
@@ -29,7 +29,7 @@ class ArrayCell extends Component {
   render() {
     const {rowIndex, field, column, data} = this.props
     return (
-      <Cell>
+      <Cell className='cell'>
         {data[rowIndex][field][column]}
       </Cell>
     )
@@ -41,7 +41,7 @@ class MoneyCell extends Component {
     const {rowIndex, field, data} = this.props
     const payments = data[rowIndex][field]
     return (
-      <Cell>
+      <Cell className='cell'>
         {'$' + payments.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}
       </Cell>
     )
@@ -53,7 +53,7 @@ class DateCell extends Component {
     const {rowIndex, field, data} = this.props
     const source = data[rowIndex][field]
     return (
-      <Cell>
+      <Cell className='cell'>
         {new Date(data[rowIndex][field]).toLocaleDateString()}
       </Cell>
     )
@@ -120,6 +120,11 @@ class PaymentDetails extends Component {
 
   render() {
     return (
+      <div>
+      <div className='header'>
+        <span></span>
+        <img src='https://owainfluencers.com/static/img/owa.svg' className='logo' alt=''/>
+      </div>
       <Table
         rowsCount={this.state.payments.length}
         rowHeight={50}
@@ -179,6 +184,7 @@ class PaymentDetails extends Component {
           width={200}
         />
       </Table>
+      </div>
     )
   }
 }

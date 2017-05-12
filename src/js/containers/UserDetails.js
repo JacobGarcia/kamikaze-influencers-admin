@@ -19,7 +19,7 @@ class LinkCell extends Component {
   render() {
     const {rowIndex, field, data} = this.props
     return (
-      <Cell>
+      <Cell className='cell'>
         <a href={'http://www.instagram.com/' + data[rowIndex][field]}>{data[rowIndex][field]}</a>
       </Cell>
     )
@@ -30,7 +30,7 @@ class TextCell extends Component {
   render() {
     const {rowIndex, field, data} = this.props
     return (
-      <Cell>
+      <Cell className='cell'>
         {data[rowIndex][field]}
       </Cell>
     )
@@ -46,7 +46,7 @@ class MoneyCell extends Component {
       amount += payment.amount
     })
     return (
-      <Cell>
+      <Cell className='cell'>
         {'$' + amount.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}
       </Cell>
     )
@@ -58,7 +58,7 @@ class DateCell extends Component {
     const {rowIndex, field, data} = this.props
     const source = data[rowIndex][field]
     return (
-      <Cell>
+      <Cell className='cell'>
         {new Date(data[rowIndex][field]).toLocaleDateString()}
       </Cell>
     )
