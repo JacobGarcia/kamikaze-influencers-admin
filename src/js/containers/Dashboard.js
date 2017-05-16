@@ -30,7 +30,12 @@ class Dashboard extends Component {
         sold: 100,
       }], // Name and total purchases
       totalIncome: 3240,
-      latestIncome: 0
+      latestIncome: 0,
+      //adding time
+      user: '',
+      time: '',
+      username: '',
+      fame: ''
     }
 
     this.getTotalUsers = this.getTotalUsers.bind(this)
@@ -40,6 +45,13 @@ class Dashboard extends Component {
     this.getLatestIncome = this.getLatestIncome.bind(this)
     this.getPackages = this.getPackages.bind(this)
     this.getPackageUnit = this.getPackageUnit.bind(this)
+
+    this.onUserChange = this.onUserChange.bind(this)
+    this.onTimeChange = this.onTimeChange.bind(this)
+    this.onUsernameChange = this.onUsernameChange.bind(this)
+    this.onFameChange = this.onFameChange.bind(this)
+    this.setFame = this.setFame.bind(this)
+    this.setTime = this.setTime.bind(this)
   }
 
   componentWillMount() {
@@ -174,6 +186,61 @@ class Dashboard extends Component {
         })
       }
 
+    onUserChange(event) {
+      this.setState({
+          user: event.target.value
+      })
+    }
+
+    onTimeChange(event) {
+      this.setState({
+          time: event.target.value
+      })
+    }
+
+    onUsernameChange(event) {
+      this.setState({
+          username: event.target.value
+      })
+    }
+
+    onFameChange(event) {
+      this.setState({
+          fame: event.target.value
+      })
+    }
+
+    setTime() {
+      const time = 1000 * 60 * 60 * 24 * this.state.time //in days
+      NetworkRequest.setUserTime(this.state.user, time)
+      .then((response) => {
+        alert('Added ' + this.state.time + ' time days' + ' to user: ' + this.state.user)
+        this.setState({
+            user: '',
+            time: ''
+        })
+      })
+      .catch((error) => {
+        // TODO: handle error
+        alert('User ' + this.state.user + ' not registered')
+      })
+    }
+
+    setFame() {
+      const time = 1000 * 60 * 60 * 24 * this.state.fame //in days
+      NetworkRequest.setUserFame(this.state.username, time)
+      .then((response) => {
+        alert('Added ' + this.state.fame + ' fame days' + ' to user: ' + this.state.username)
+        this.setState({
+            username: '',
+            fame: ''
+        })
+      })
+      .catch((error) => {
+        // TODO: handle error
+        alert('User ' + this.state.username + ' not registered')
+      })
+    }
 
   render() {
 
@@ -197,6 +264,26 @@ class Dashboard extends Component {
                 <h2>Last 30 Days</h2>
                 <p><span className='users red'>{state.newUsers}</span> new users, <span className='red'>{state.newPayingUsers}</span> have purchased a package</p>
               </div>
+              <div className='section'>
+                <div><span className='red'>ADD TIME</span></div>
+                <div className='text'>
+                  <input type="text" placeholder='Username' onChange={this.onUserChange} value={this.state.user}/>
+                </div>
+                  <div className='text'>
+                    <span><input type="text" placeholder='Time to add in days' onChange={this.onTimeChange} value={this.state.time}/></span>
+                </div>
+                <input type='button' value='SET TIME ' className='red' onClick={this.setTime}/>
+              </div>
+              <div className='section'>
+                <div><span className='red'>ADD FAME</span></div>
+                <div className='text'>
+                  <input type="text" placeholder='Username' onChange={this.onUsernameChange} value={this.state.username}/>
+                </div>
+                  <div className='text'>
+                    <span><input type="text" placeholder='Time to add in days' onChange={this.onFameChange} value={this.state.fame}/></span>
+                </div>
+                <input type='button' value='SET FAME' className='red' onClick={this.setFame}/>
+              </div>
           </div>
           <div className='finance-wrapper'>
             <div className='income-wrapper'>
@@ -218,6 +305,7 @@ class Dashboard extends Component {
               )}
             </div>
           </div>
+
         </div>
       </div>
     )

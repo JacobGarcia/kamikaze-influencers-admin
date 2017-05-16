@@ -195,6 +195,74 @@ router.route('/admin/self/detailed/users')
   })
 })
 
+router.route('/admin/self/add/time')
+.post((req, res) => {
+  const username = req.body.user
+  const timeToAdd = req.body.time
+
+  User.findOne({ username })
+  .exec((error, user) => {
+    if (error) {
+      console.log(error)
+      return res.status(500).json({ error })
+    }
+
+    const now = Date.now()
+
+    // Check if timeEnd has already passed
+    if (user.timeEnd < now) {
+      user.timeEnd = now + timeToAdd
+    } else {
+      user.timeEnd = user.timeEnd + timeToAdd
+    }
+
+      user.save((error, savedUser) => {
+        if (error) {
+          console.log(error)
+          return res.status(500).json({ error })
+        }
+
+      res.status(200).json({ user })
+    })
+
+  })
+
+})
+
+router.route('/admin/self/add/fame')
+.post((req, res) => {
+  const username = req.body.user
+  const timeToAdd = req.body.fame
+
+  User.findOne({ username })
+  .exec((error, user) => {
+    if (error) {
+      console.log(error)
+      return res.status(500).json({ error })
+    }
+
+    const now = Date.now()
+
+    // Check if timeEnd has already passed
+    if (user.fameEnd < now) {
+      user.fameEnd = now + timeToAdd
+    } else {
+      user.fameEnd = user.fameEnd + timeToAdd
+    }
+
+      user.save((error, savedUser) => {
+        if (error) {
+          console.log(error)
+          return res.status(500).json({ error })
+        }
+
+      res.status(200).json({ user })
+    })
+
+  })
+
+})
+
 
 
 module.exports = router
