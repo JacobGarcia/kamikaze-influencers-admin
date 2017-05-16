@@ -42,6 +42,14 @@ class NetworkRequest {
     return axios.get(`${window.baseUrl}/admin/self/detailed/payments`)
   }
 
+  static setUserTime(user, time) {
+    return axios.post(`${window.baseUrl}/admin/self/add/time`, { user, time })
+  }
+
+  static setUserFame(user, fame) {
+    return axios.post(`${window.baseUrl}/admin/self/add/fame`, { user, fame })
+  }
+
 }
 
 export default NetworkRequest

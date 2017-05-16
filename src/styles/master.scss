@@ -1,8 +1,15 @@
+$red: #D90754;
+$purple: #972874;
+
 @import "./fixed-data-table.scss";
 
 @mixin box-shadow {
   border-radius: 3px;
   box-shadow: #DB175E 0px 0px 6px;
+}
+
+@mixin owa_boxshadow {
+  box-shadow: 0px 3px 3px rgba($red, 0.2), 0px 6px 9px rgba($red, 0.1), 0px 6px 14px rgba($red, 0.05);
 }
 
 *, html, body, div, ul, li, p, span {
@@ -101,4 +108,36 @@ h2 {
 
 .cell {
   padding: 8px;
+}
+
+.section {
+  margin-top: 50px;
+  .text {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #9A9A9A;
+    flex-wrap: wrap;
+  }
+  input[type="button"], input[type="submit"] {
+    padding: 8px 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    &.red {
+      @include owa_boxshadow;
+      color: #fff;
+      background: linear-gradient(90deg, $red, $purple);
+    }
+  }
+}
+input {
+    height: 30px;
+    padding: 3px 0;
+    margin: 5px 0;
+    border-bottom: 0;
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
 }
