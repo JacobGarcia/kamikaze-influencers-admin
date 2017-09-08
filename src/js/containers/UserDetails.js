@@ -130,7 +130,7 @@ class UserDetails extends Component {
       <div>
       <div className='header'>
         <span></span>
-        <img src='https://owainfluencers.com/static/img/owa.svg' className='logo' alt=''/>
+        <img src='https://kamikazefollowers.com/static/img/owa.svg' className='logo' alt=''/>
       </div>
       <Table
         rowsCount={this.state.users.length}

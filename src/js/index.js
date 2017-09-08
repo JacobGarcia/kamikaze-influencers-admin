@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import Dashboard from './containers/Dashboard'
 import Routes from './router'
 
-window.baseUrl = 'https://admin.owainfluencers.com/v1'
+window.baseUrl = 'https://admin.kamikazefollowers.com/v1'
 
 const div = document.createElement('div')
 document.body.appendChild(div)
